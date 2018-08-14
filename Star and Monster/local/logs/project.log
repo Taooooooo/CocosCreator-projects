@@ -1,0 +1,99 @@
+2018-08-03T07:11:33.693Z - normal: Load ~/.CocosCreator/settings.json
+2018-08-03T07:11:33.697Z - normal: checking language setting...
+2018-08-03T07:11:33.697Z - normal: Language: zh
+2018-08-03T07:11:34.172Z - success: protocol editor-framework registered
+2018-08-03T07:11:34.172Z - success: protocol app registered
+2018-08-03T07:11:34.172Z - success: protocol theme registered
+2018-08-03T07:11:34.172Z - success: protocol packages registered
+2018-08-03T07:11:34.173Z - success: protocol unpack registerred
+2018-08-03T07:11:34.173Z - success: protocol disable-commonjs registerred
+2018-08-03T07:11:34.256Z - normal: connected!
+2018-08-03T07:11:34.259Z - normal: Check project /Users/mei/CocosCreator-workspace/Star and Monster
+2018-08-03T07:11:34.261Z - normal: Initializing project /Users/mei/CocosCreator-workspace/Star and Monster
+2018-08-03T07:11:34.266Z - normal: Initializing Cocos2d
+2018-08-03T07:11:34.649Z - normal: Initializing Asset Database
+2018-08-03T07:11:34.688Z - success: protocol uuid registerred
+2018-08-03T07:11:34.688Z - success: protocol db registerred
+2018-08-03T07:11:34.688Z - success: protocol thumbnail registerred
+2018-08-03T07:11:34.689Z - normal: Loading editor/builtin packages
+2018-08-03T07:11:34.819Z - success: assets loaded
+2018-08-03T07:11:34.823Z - success: builder loaded
+2018-08-03T07:11:34.826Z - success: cocos-analytics loaded
+2018-08-03T07:11:34.830Z - success: console loaded
+2018-08-03T07:11:34.864Z - success: fb-instant-games loaded
+2018-08-03T07:11:34.869Z - success: hierarchy loaded
+2018-08-03T07:11:34.875Z - success: inspector loaded
+2018-08-03T07:11:34.878Z - success: keystore loaded
+2018-08-03T07:11:34.884Z - success: node-library loaded
+2018-08-03T07:11:34.887Z - success: package-asset loaded
+2018-08-03T07:11:34.889Z - success: preferences loaded
+2018-08-03T07:11:34.893Z - success: project-exporter loaded
+2018-08-03T07:11:34.911Z - success: project-importer loaded
+2018-08-03T07:11:34.915Z - success: project-settings loaded
+2018-08-03T07:11:34.925Z - success: ui-kit loaded
+2018-08-03T07:11:34.930Z - success: scene loaded
+2018-08-03T07:11:34.932Z - success: sprite-editor loaded
+2018-08-03T07:11:34.937Z - success: store loaded
+2018-08-03T07:11:34.943Z - success: timeline loaded
+2018-08-03T07:11:34.944Z - normal: Loading builtin packages
+2018-08-03T07:11:34.950Z - success: asset-db-debugger loaded
+2018-08-03T07:11:34.952Z - success: color-picker loaded
+2018-08-03T07:11:34.959Z - success: package-manager loaded
+2018-08-03T07:11:34.960Z - success: qqplay-adapter loaded
+2018-08-03T07:11:34.967Z - success: sdkbox loaded
+2018-08-03T07:11:34.974Z - success: tester loaded
+2018-08-03T07:11:34.981Z - success: ui-grid loaded
+2018-08-03T07:11:34.986Z - success: ui-kit-preview-extra loaded
+2018-08-03T07:11:34.991Z - success: ui-kit-preview loaded
+2018-08-03T07:11:34.994Z - success: ui-tree loaded
+2018-08-03T07:11:34.995Z - success: weapp-adapter loaded
+2018-08-03T07:11:36.092Z - normal: Loading packages
+2018-08-03T07:11:36.098Z - normal: Watching packages
+2018-08-03T07:11:36.164Z - normal: Run Application
+2018-08-03T07:11:37.034Z - success: preview server running at http://localhost:7458
+2018-08-03T07:11:42.486Z - warn: Please change the definition of property 'scoreAudio' in class 'Game'. Starting from v1.10,
+the use of declaring a property in CCClass as a URL has been deprecated.
+For example, if property is Texture2D, the previous definition is:
+    scoreAudio: cc.Texture2D,
+    // or:
+    scoreAudio: {
+      url: cc.Texture2D,
+      default: ""
+    },
+Now it should be changed to:
+    scoreAudio: {
+      type: cc.Texture2D, // use 'type:' to define Texture2D object directly
+      default: null,      // object's default value is null
+    },
+(This helps us to successfully refactor all RawAssets at v2.0, sorry for the inconvenience. 😰 )
+2018-08-03T07:11:42.489Z - warn: Please change the definition of property 'jumpAudio' in class 'Player'. Starting from v1.10,
+the use of declaring a property in CCClass as a URL has been deprecated.
+For example, if property is Texture2D, the previous definition is:
+    jumpAudio: cc.Texture2D,
+    // or:
+    jumpAudio: {
+      url: cc.Texture2D,
+      default: ""
+    },
+Now it should be changed to:
+    jumpAudio: {
+      type: cc.Texture2D, // use 'type:' to define Texture2D object directly
+      default: null,      // object's default value is null
+    },
+(This helps us to successfully refactor all RawAssets at v2.0, sorry for the inconvenience. 😰 )
+2018-08-03T07:11:42.491Z - warn: Please change the definition of property 'jumpAudio' in class 'PurpleMonster'. Starting from v1.10,
+the use of declaring a property in CCClass as a URL has been deprecated.
+For example, if property is Texture2D, the previous definition is:
+    jumpAudio: cc.Texture2D,
+    // or:
+    jumpAudio: {
+      url: cc.Texture2D,
+      default: ""
+    },
+Now it should be changed to:
+    jumpAudio: {
+      type: cc.Texture2D, // use 'type:' to define Texture2D object directly
+      default: null,      // object's default value is null
+    },
+(This helps us to successfully refactor all RawAssets at v2.0, sorry for the inconvenience. 😰 )
+2018-08-03T07:14:00.749Z - info: shutdown preview server

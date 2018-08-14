@@ -1,0 +1,19 @@
+{
+  "actualPlatform": "Wechat Game",
+  "apiLevel": "",
+  "appABIs": [],
+  "buildPath": "/Users/mei/Desktop",
+  "debug": false,
+  "embedWebDebugger": false,
+  "keystoreAlias": "",
+  "keystoreAliasPassword": "",
+  "keystorePassword": "",
+  "keystorePath": "",
+  "platform": "wechatgame",
+  "previewHeight": "720",
+  "previewWidth": "1280",
+  "sourceMaps": false,
+  "template": "link",
+  "useDebugKeystore": true,
+  "vsVersion": "auto"
+}
