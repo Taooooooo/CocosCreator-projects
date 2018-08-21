@@ -59,6 +59,35 @@ cc.Class({
         landlordsign_2: cc.Node,
         landlordsign_3: cc.Node,
         landlordsign_4: cc.Node,
+
+        last1: cc.Node,
+        last2: cc.Node,
+        last3: cc.Node,
+        last4: cc.Node,
+        last5: cc.Node,
+        last6: cc.Node,
+        last7: cc.Node,
+        last8: cc.Node,
+
+        out: cc.Node,
+        noout: cc.Node,
+
+        rest1num: cc.Label,
+
+        // 以下player2 player3 player4暂时
+        player2_point_one: cc.Node,
+        player3_point_one: cc.Node,
+        player4_point_one: cc.Node,
+
+        setting: {
+            default: null,
+            type: cc.Prefab
+        },
+        user: {
+            default: null,
+            type: cc.Prefab
+        },
+
     },
 
     onLoad: function() {
@@ -163,20 +192,17 @@ cc.Class({
             poker.sort(this.sortNumber);
         }
 
-        /*
-        for (var i = 0; i < 100; i ++) {
-            if (i % 4 == 0) player1.push(poker[i]);
-            if (i % 4 == 1) player2.push(poker[i]);
-            if (i % 4 == 2) player3.push(poker[i]);
-            if (i % 4 == 3) player4.push(poker[i]);
-        }
-        */
+        Poker._last = last;
+        Poker._player2 = player2;
+        Poker._player3 = player2;
+        Poker._player4 = player2;
 
         // player 手牌排序
         player1.sort(this.sortNumber);
         player2.sort(this.sortNumber);
         player3.sort(this.sortNumber);
         player4.sort(this.sortNumber);
+        Poker._last.sort(this.sortNumber);
 
         this._pokers = [];
         for (var i = 0; i <= 24; i ++) {
@@ -1152,7 +1178,7 @@ cc.Class({
         }
     },
 
-    // 抢地主
+    // 随机地主
     rushLandlord: function() {
         this.landlordsign_1.opacity = 0;
         this.landlordsign_2.opacity = 0;
@@ -1167,10 +1193,82 @@ cc.Class({
         // 随机抢地主机会
         var turn = Math.floor(Math.random() * 3 + 1);
         Poker._turn = turn;
-        if (turn == 1){
+    },
+
+    callLandlord: function() {
+        if (Poker._turn == 1 || Poker._turn == 5) {
             this.point_one.y = -50;
             this.point_two.y = -50;
             this.point_three.y = -50;
+        }
+        if (Poker._turn == 2) {
+            this.player2_point_one.x = -150;
+            Poker._turn += 1;
+        }
+        if (Poker._turn == 3) {
+            this.player3_point_one.y = -100;
+            Poker._turn += 1;
+        }
+        if (Poker._turn == 4) {
+            this.player4_point_one.x = 150;
+            Poker._turn += 1;
+        }
+    },
+
+    // 出牌轮次
+    whoseTurn: function() {
+        this.out.x = 1000;
+        this.noout.x = 1000;
+        // player1 出牌
+        if (Poker._turn % 4 == 1 && Poker._turn > 5) {
+            this.out.x = 230;
+            this.noout.x = -230;
+        }
+        // 为测试设置的傻子机器人，每次只出最大的一张牌，并且只叫“一分”，player2 player3 player4都要改
+        // player2 出牌
+        if (Poker._turn % 4 == 2 && Poker._turn > 2) {
+            var arr = Poker._player2[Poker._player2.length - 1];
+            var y = parseInt(arr/10);
+            var x = arr - 10 * y;
+            this.setPoker(x, y);
+            // 克隆
+            var scene = cc.director.getScene();
+            var node = cc.instantiate(this.target);
+            node.scaleX = 0.6;
+            node.scaleY = 0.6;
+            node.parent = scene;
+            node.setPosition(640, 360);
+            Poker._turn += 1;
+        }
+        // player3 出牌
+        if (Poker._turn % 4 == 3 && Poker._turn > 3) {
+            var arr = Poker._player2[Poker._player2.length - 1];
+            var y = parseInt(arr/10);
+            var x = arr - 10 * y;
+            this.setPoker(x, y);
+            // 克隆
+            var scene = cc.director.getScene();
+            var node = cc.instantiate(this.target);
+            node.scaleX = 0.6;
+            node.scaleY = 0.6;
+            node.parent = scene;
+            node.setPosition(640, 360);
+            Poker._turn += 1;
+        }
+        // player4 出牌
+        if (Poker._turn % 4 == 0 && Poker._turn > 4) {
+            var arr = Poker._player2[Poker._player2.length - 1];
+            var y = parseInt(arr/10);
+            var x = arr - 10 * y;
+            this.setPoker(x, y);
+            // 克隆
+            var scene = cc.director.getScene();
+            var node = cc.instantiate(this.target);
+            node.scaleX = 0.6;
+            node.scaleY = 0.6;
+            node.parent = scene;
+            node.setPosition(640, 360);
+            Poker._turn += 1;
         }
     },
 
@@ -1179,22 +1277,474 @@ cc.Class({
         this.point_two.y = 500;
         this.point_three.y = 500;
         this.t_point_one.y = -50;
+        Poker._turn += 1;
     },
     onClickPointTwo: function() {
         this.point_one.y = 500;
         this.point_two.y = 500;
         this.point_three.y = 500;
         this.t_point_two.y = -50;
+        Poker._turn += 1;
     },
     onClickPointThree: function() {
         this.point_one.y = 500;
         this.point_two.y = 500;
         this.point_three.y = 500;
-        this.t_point_three.y = -50;
+        // this.t_point_three.y = -50;
         this.landlordsign_1.opacity = 255;
+        this.showLast();
+        this.beLandlord();
+
+        Poker._rest1 = 33;
+        this.rest1num.string = Poker._rest1 + '张';
+
+        Poker._turn = 9;
+
+        this.player2_point_one.x = 200;
+        this.player3_point_one.y = 500;
+        this.player4_point_one.x = -200;
+
+    },
+
+    // 成为地主
+    beLandlord: function() {
+        for (var i = 0; i < 25; i ++) {
+            Poker._pokers[i].y = 2500;
+        }
+    
+        for (var i = 0; i < 8; i ++) {
+            Poker._player1.push(Poker._last[i]);
+        }
+    
+        Poker._player1.sort(this.sortNumber);
+    
+        for (var i = 0; i < 33; i ++) {
+            var arr = Poker._player1[i];
+            var y = parseInt(arr/10);
+            var x = arr - 10 * y;
+            this.setPoker(x, y);
+            // 克隆
+            var scene = cc.director.getScene();
+            var node = cc.instantiate(this.target);
+            var x = 175 + i * 32;
+            node.parent = scene;
+            node.setPosition(x, 160);
+            // 添加到数组
+            this._pokers[i] = node;
+            Poker._pokers = this._pokers;
+        }
+    
+        Poker._pokers[0].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[0] += 1;
+            var node = Poker._pokers[0];
+            if (Poker._condition[0] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[1].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[1] += 1;
+            var node = Poker._pokers[1];
+            if (Poker._condition[1] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[2].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[2] += 1;
+            var node = Poker._pokers[2];
+            if (Poker._condition[2] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[3].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[3] += 1;
+            var node = Poker._pokers[3];
+            if (Poker._condition[3] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[4].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[4] += 1;
+            var node = Poker._pokers[4];
+            if (Poker._condition[4] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[5].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[5] += 1;
+            var node = Poker._pokers[5];
+            if (Poker._condition[5] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[6].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[6] += 1;
+            var node = Poker._pokers[6];
+            if (Poker._condition[6] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[7].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[7] += 1;
+            var node = Poker._pokers[7];
+            if (Poker._condition[7] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[8].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[8] += 1;
+            var node = Poker._pokers[8];
+            if (Poker._condition[8] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[9].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[9] += 1;
+            var node = Poker._pokers[9];
+            if (Poker._condition[9] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[10].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[10] += 1;
+            var node = Poker._pokers[10];
+            if (Poker._condition[10] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+        
+        Poker._pokers[11].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[11] += 1;
+            var node = Poker._pokers[11];
+            if (Poker._condition[11] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[12].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[12] += 1;
+            var node = Poker._pokers[12];
+            if (Poker._condition[12] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[13].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[13] += 1;
+            var node = Poker._pokers[13];
+            if (Poker._condition[13] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[14].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[14] += 1;
+            var node = Poker._pokers[14];
+            if (Poker._condition[14] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[15].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[15] += 1;
+            var node = Poker._pokers[15];
+            if (Poker._condition[15] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[16].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[16] += 1;
+            var node = Poker._pokers[16];
+            if (Poker._condition[16] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[17].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[17] += 1;
+            var node = Poker._pokers[17];
+            if (Poker._condition[17] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[18].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[18] += 1;
+            var node = Poker._pokers[18];
+            if (Poker._condition[18] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[19].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[19] += 1;
+            var node = Poker._pokers[19];
+            if (Poker._condition[19] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[20].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[20] += 1;
+            var node = Poker._pokers[20];
+            if (Poker._condition[20] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[21].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[21] += 1;
+            var node = Poker._pokers[21];
+            if (Poker._condition[21] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[22].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[22] += 1;
+            var node = Poker._pokers[22];
+            if (Poker._condition[22] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[23].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[23] += 1;
+            var node = Poker._pokers[23];
+            if (Poker._condition[23] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[24].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[24] += 1;
+            var node = Poker._pokers[24];
+            if (Poker._condition[24] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[25].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[25] += 1;
+            var node = Poker._pokers[25];
+            if (Poker._condition[25] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[26].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[26] += 1;
+            var node = Poker._pokers[26];
+            if (Poker._condition[26] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[27].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[27] += 1;
+            var node = Poker._pokers[27];
+            if (Poker._condition[27] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[28].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[28] += 1;
+            var node = Poker._pokers[28];
+            if (Poker._condition[28] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[29].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[29] += 1;
+            var node = Poker._pokers[29];
+            if (Poker._condition[29] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[30].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[30] += 1;
+            var node = Poker._pokers[30];
+            if (Poker._condition[30] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[31].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[31] += 1;
+            var node = Poker._pokers[31];
+            if (Poker._condition[31] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    
+        Poker._pokers[32].on(cc.Node.EventType.TOUCH_START, function () {
+            Poker._condition[32] += 1;
+            var node = Poker._pokers[32];
+            if (Poker._condition[32] % 2 == 0) {
+                node.y += 30;
+            }
+            else {
+                node.y -= 30;
+            }
+        }, this);
+    },
+
+    // 显示底牌
+    showLast: function() {
+        this.last1.y = 500;
+        this.last2.y = 500;
+        this.last3.y = 500;
+        this.last4.y = 500;
+        this.last5.y = 500;
+        this.last6.y = 500;
+        this.last7.y = 500;
+        this.last8.y = 500;
+
+        for (var i = 0; i < 8; i ++) {
+            var arr = Poker._last[i];
+            var y = parseInt(arr/10);
+            var x = arr - 10 * y;
+            this.setPoker(x, y);
+            // 克隆
+            var scene = cc.director.getScene();
+            var node = cc.instantiate(this.target);
+            var x = 115 + i * 24;
+            node.parent = scene;
+            node.setPosition(x, 660);
+            node.scaleX = 44/142;
+            node.scaleY = 57/185;
+        }
+    },
+
+    onSettingClick:function(){
+        var scene = cc.director.getScene();
+        var node = cc.instantiate(this.setting);
+        node.parent = scene;
+        node.setPosition(640, 360);
+    },
+
+    onClickReturn: function() {
+        cc.director.loadScene("Hall");
+    },
+
+    onUserClick:function(){
+        var scene = cc.director.getScene();
+        var node = cc.instantiate(this.user);
+        node.parent = scene;
+        node.setPosition(640, 360);
     },
 
     update: function(dt) {
-
+        this.whoseTurn();
+        this.callLandlord();
     },
 });

@@ -3,6 +3,19 @@ var Poker = require("Poker");
 cc.Class({
     extends: cc.Component,
 
+    properties: {
+        rest1num: cc.Label,
+        win: {
+            default: null,
+            type: cc.Prefab
+        },
+    },
+
+    onLoad: function() {
+        this.rest1 = 25;
+        Poker._rest1 = this.rest1;
+    },
+
     /****************
     判断牌组的类型：
     -1: 不符合逻辑的牌
@@ -42,7 +55,7 @@ cc.Class({
         }
         // 判断对子
         if (choose.length == 2){
-            if (Math.floor(Poker._player1[c_player[0]]/10) == Math.floor(Poker._player1[c_player[1]]/10) && Math.floor(Poker._player1[c_player[0]]/10) < 14) {
+            if (Math.floor(Poker._player1[c_player[0]]/10) == Math.floor(Poker._player1[c_player[1]]/10)) {
                 return 2;
             }
         }
@@ -253,9 +266,23 @@ cc.Class({
                 Poker._condition[Poker.c_condition[i]] = 1;
             }
         }
+        if (out > 0) {
+            Poker._rest1 -= Poker._choose.length;
+            this.rest1num.string = Poker._rest1 + '张';
+            Poker._turn += 1;
+        }
         Poker._choose = [];
         Poker.c_condition = [];
         Poker.c_player = [];
+        // 获得胜利
+        if (Poker._rest1 == 0) {
+            Poker._turn = 0;
+            this.cover();
+            var scene = cc.director.getScene();
+            var node = cc.instantiate(this.win);
+            node.parent = scene;
+            node.setPosition(640, 360);
+        }
     },
 
     // 不出
@@ -265,6 +292,7 @@ cc.Class({
             Poker._pokers[Poker._choose[i]].y -= 30;
             Poker._condition[Poker.c_condition[i]] = 1;
         }
+        Poker._turn += 1;
     },
 
 });

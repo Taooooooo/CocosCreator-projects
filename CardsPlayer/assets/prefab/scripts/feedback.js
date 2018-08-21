@@ -27,14 +27,15 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+        target: cc.Node,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
-    onClickTourist: function() {
-        cc.director.loadScene("Hall");
+    onCloseClick:function(){
+        this.target.destroy();
     },
 
     start () {

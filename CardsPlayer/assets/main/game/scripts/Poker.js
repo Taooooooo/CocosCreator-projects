@@ -9,5 +9,10 @@ module.exports = {
     _output: [],// 出牌区的牌
     _out: 0,// 打出的牌型
     _turn: 0,// 谁的回合
+    _last: [],// 8张底牌
+    _rest1: 0,// player1的剩余手牌数
+    _player2: [],// player2 的扑克牌的 数组 信息
+    _player3: [],// player3 的扑克牌的 数组 信息
+    _player4: [],// player4 的扑克牌的 数组 信息
 
 };

@@ -27,14 +27,84 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+        setting: {
+            default: null,
+            type: cc.Prefab
+        },
+        playway: {
+            default: null,
+            type: cc.Prefab
+        },
+        message: {
+            default: null,
+            type: cc.Prefab
+        },
+        share: {
+            default: null,
+            type: cc.Prefab
+        },
+        feedback: {
+            default: null,
+            type: cc.Prefab
+        },
+        user: {
+            default: null,
+            type: cc.Prefab
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
+    onSettingClick:function(){
+        var scene = cc.director.getScene();
+        var node = cc.instantiate(this.setting);
+        node.parent = scene;
+        node.setPosition(640, 360);
+    },
+
+    onPlaywayClick:function(){
+        var scene = cc.director.getScene();
+        var node = cc.instantiate(this.playway);
+        node.parent = scene;
+        node.setPosition(640, 360);
+    },
+
+    onMessageClick:function(){
+        var scene = cc.director.getScene();
+        var node = cc.instantiate(this.message);
+        node.parent = scene;
+        node.setPosition(640, 360);
+    },
+
+    onShareClick:function(){
+        var scene = cc.director.getScene();
+        var node = cc.instantiate(this.share);
+        node.parent = scene;
+        node.setPosition(640, 360);
+    },
+
+    onFeedbackClick:function(){
+        var scene = cc.director.getScene();
+        var node = cc.instantiate(this.feedback);
+        node.parent = scene;
+        node.setPosition(640, 360);
+    },
+
+    onUserClick:function(){
+        var scene = cc.director.getScene();
+        var node = cc.instantiate(this.user);
+        node.parent = scene;
+        node.setPosition(640, 360);
+    },
+
     start () {
 
+    },
+
+    onCilckLandlord: function() {
+        cc.director.loadScene("Room");
     },
 
     // update (dt) {},
